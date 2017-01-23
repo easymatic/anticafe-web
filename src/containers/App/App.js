@@ -72,7 +72,7 @@ class App extends Component {
         onRequestChange={(open) => this.setState({open})}
       >
         <List>
-          <ListItem primaryText="Persons" leftIcon={<SocialPerson />} />
+          <ListItem primaryText="All Persons" leftIcon={<SocialPerson />} />
           <ListItem primaryText="Sessions" leftIcon={<ActionList />} />
         </List>
       </Drawer>
