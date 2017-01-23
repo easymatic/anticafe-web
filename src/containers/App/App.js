@@ -73,7 +73,7 @@ class App extends Component {
       >
         <List>
           <ListItem primaryText="All Persons" leftIcon={<SocialPerson />} />
-          <ListItem primaryText="Sessions" leftIcon={<ActionList />} />
+          <ListItem primaryText="All Sessions" leftIcon={<ActionList />} />
         </List>
       </Drawer>
       <Grid>
