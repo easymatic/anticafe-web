@@ -1,5 +1,9 @@
 <md-toolbar>
   <span>Sessions</span>
+  <md-input-container class="input-container">
+    <input mdInput placeholder="Enter card" [(ngModel)]="newCardId">
+    <button md-button (click)="checkCard(newCardId)">ADD</button>
+  </md-input-container>
 </md-toolbar>
 <md-card (click)="selectSession(session)" *ngFor="let session of activeSessions">
   <md-card-title>

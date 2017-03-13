@@ -19,6 +19,7 @@ export class SessionsListComponent {
   activeSessions: Session[];
   cards: Card[];
   selectedSession: Session;
+  newCardId: string;
   private socket = new WebSocket("wss://easyanticafedevelop.herokuapp.com/cat/");
 
   constructor(public dialog: MdDialog,
@@ -98,6 +99,9 @@ export class SessionsListComponent {
   }
 
   checkCard(cardId) {
+    if (this.newCardId) {
+      this.newCardId = '';
+    }
     console.log('Check if card exists', cardId);
     console.log('Cards are', this.cards)
     let card = this.cards.find(function(item) {
