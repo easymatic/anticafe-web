@@ -37,7 +37,7 @@ export class CardsService {
   }
 
   delete(id: number): Promise<void> {
-    const url = `${this.cardsUrl}/${id}`;
+    const url = `${this.cardsUrl}/${id}/`;
     return this.http.delete(url)
       .toPromise()
       .then(() => null)

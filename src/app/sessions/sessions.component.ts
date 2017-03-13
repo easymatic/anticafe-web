@@ -16,6 +16,7 @@ import { Plan } from './../plans/plan';
 })
 export class SessionsListComponent {
   sessions: Session[];
+  activeSessions: Session[];
   cards: Card[];
   selectedSession: Session;
   private socket = new WebSocket("wss://easyanticafedevelop.herokuapp.com/cat/");
@@ -40,7 +41,17 @@ export class SessionsListComponent {
     this.sessionsService
     .getSessions()
     .then((sessions) => {
-      this.sessions = sessions
+      let activeSessions = [];
+      for (var i in sessions) {
+        var session = sessions[i];
+        session.durationInSec = parseInt(session.duration)
+        session.costInRub = Math.round(session.cost)
+        if (session.is_active) {
+          activeSessions.push(session);
+        }
+      }
+      this.sessions = sessions;
+      this.activeSessions = activeSessions;
       console.log('Sessions are', this.sessions)
     });
   }
@@ -63,6 +74,29 @@ export class SessionsListComponent {
     }
   }
 
+  openSession(session) {
+    let that = this
+    let sessionDialog = this.dialog.open(SessionDialog);
+    sessionDialog.componentInstance.session = session;
+    sessionDialog.afterClosed().subscribe(result => {
+      console.log('Result is ', result)
+      if (result && result.stopSession === true) {
+        let card = that.cards.find(function(item) {
+          return item.id === session.card;
+        })
+        that.sessionsService.stopSession(card.indentifier).then((res) => {
+          console.log('Session stopped with card', card.indentifier)
+          that.getSessions();
+          this.cardsService
+          .delete(card.id)
+          .then((card) => {
+            console.log('Card deleted', card)
+          });
+        })
+      }
+    });
+  }
+
   checkCard(cardId) {
     console.log('Check if card exists', cardId);
     console.log('Cards are', this.cards)
@@ -72,15 +106,17 @@ export class SessionsListComponent {
     if (card) {
       console.log('Card found', card)
       let session = this.sessions.find(function(item) {
-        return item.card === card.id;
+        return item.is_active && item.card === card.id;
       })
-      console.log('Session found', session)
-      let sessionDialog = this.dialog.open(SessionDialog);
-      sessionDialog.componentInstance.session = session;
-      sessionDialog.afterClosed().subscribe(result => {
-        console.log('Result is ', result)
-      });
-
+      if (session) {
+        console.log('Session found', session)
+        this.openSession(session);
+      } else {
+        this.sessionsService.startSession(cardId).then((res) => {
+          console.log('Session started with card', cardId)
+          this.sessions.push(res)
+        })
+      }
     } else {
       console.log('Card not found')
       let cardDialog = this.dialog.open(NewCardDialog);

@@ -1,11 +1,9 @@
 <h1 md-dialog-title>Session</h1>
 <div md-dialog-content>
-  {{session.start}}
-  <p>
-  {{session.duration/60}}
-  </p>
+  <p>Duration {{session.durationInSec | amDuration:'seconds'}}</p>
+  <p>Cost {{session.costInRub}} &#x20bd;</p>
 </div>
 <div md-dialog-actions>
   <button md-button (click)="dialogRef.close()">Cancel</button>
-  <button md-button (click)="dialogRef.close({stopSession: true})">OK</button>
+  <button md-button *ngIf="session.is_active" (click)="dialogRef.close({stopSession: true})">STOP</button>
 </div>

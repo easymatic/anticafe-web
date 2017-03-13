@@ -5,5 +5,5 @@ export class Session {
     public end: string,
     public card: number,
     public duration: number,
-    is_active: boolean) { }
+    public is_active: boolean) { }
 }
