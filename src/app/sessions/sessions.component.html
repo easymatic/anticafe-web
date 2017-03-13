@@ -1,0 +1,14 @@
+<md-toolbar>
+  <span>Сессии</span>
+</md-toolbar>
+<md-card (click)="selectSession(session)" *ngFor="let session of sessions">
+  <md-card-title>
+    <span class="small">Карта {{getSessionCardId(session)}}</span>
+  </md-card-title>
+  <md-card-subtitle>Стоимость {{session.cost}}</md-card-subtitle>
+  <md-card-subtitle>Начало сессии {{session.start}}</md-card-subtitle>
+  <div class="action-buttons">
+    <button md-button>LIKE</button>
+    <button md-button>SHARE</button>
+  </div>
+</md-card>

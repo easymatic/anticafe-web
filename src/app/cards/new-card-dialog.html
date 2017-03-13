@@ -1,0 +1,12 @@
+<h1 md-dialog-title>New card</h1>
+<div md-dialog-content>
+  <md-select placeholder="Select tariff" [(ngModel)]="selectedPlan">
+    <md-option *ngFor="let plan of plans" [value]="plan.id">
+      {{ plan.name }}
+    </md-option>
+  </md-select>
+</div>
+<div md-dialog-actions>
+  <button md-button (click)="dialogRef.close()">Cancel</button>
+  <button md-button (click)="dialogRef.close({selectedPlan: selectedPlan})">OK</button>
+</div>
