@@ -6,7 +6,7 @@ export class Session {
     public card: number,
     public duration: string,
     public costInRub: number,
-    public cost: string,
+    public cost: number,
     public durationInSec: number,
     public is_active: boolean) { }
 }
