@@ -1,4 +1,5 @@
 export class Session {
+  is_active: boolean;
   constructor(
     public id: number,
     public start: string,

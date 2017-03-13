@@ -15,7 +15,7 @@ export class SessionService {
   }
 
   getSessions() {
-    return this.http.get(this.sessionUrl)
+    return this.http.get(this.sessionUrl + '?is_active=true')
     .toPromise()
     .then(response => response.json().results as Session[])
     .catch(this.handleError);

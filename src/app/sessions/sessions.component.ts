@@ -54,6 +54,7 @@ export class SessionsListComponent {
       this.sessions = sessions;
       this.activeSessions = activeSessions;
       console.log('Sessions are', this.sessions)
+      console.log('Active sessions are', this.activeSessions)
     });
   }
 
@@ -69,13 +70,16 @@ export class SessionsListComponent {
   getSessionCardId(session) {
     if (this.cards) {
       let card = this.cards.find(function(item) {
-        return item.id === session.card;
+        return item.id == session.card;
       })
-      return card.indentifier;
+      if (card) {
+        return card.indentifier;
+      }
     }
   }
 
   openSession(session) {
+    console.log('Open session', session)
     let that = this
     let sessionDialog = this.dialog.open(SessionDialog);
     sessionDialog.componentInstance.session = session;
@@ -85,15 +89,17 @@ export class SessionsListComponent {
         let card = that.cards.find(function(item) {
           return item.id === session.card;
         })
-        that.sessionsService.stopSession(card.indentifier).then((res) => {
-          console.log('Session stopped with card', card.indentifier)
-          that.getSessions();
-          this.cardsService
-          .delete(card.id)
-          .then((card) => {
-            console.log('Card deleted', card)
-          });
-        })
+        if (card) {
+          that.sessionsService.stopSession(card.indentifier).then((res) => {
+            console.log('Session stopped with card', card.indentifier)
+            that.getSessions();
+            this.cardsService
+            .delete(card.id)
+            .then((card) => {
+              console.log('Card deleted', card)
+            });
+          })
+        }
       }
     });
   }
