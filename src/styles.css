@@ -18,8 +18,15 @@
 .action-buttons {
   position: absolute;
   right: 0px;
+  top: 0px;
   bottom: 0px;
   padding: 10px;
   margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+
+  .mat-button {
+    flex: 1;
+  }
 }
 

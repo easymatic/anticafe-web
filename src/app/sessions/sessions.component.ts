@@ -2,37 +2,42 @@ import { Component } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { SessionService } from './sessions.service';
 import { CardsService } from './../cards/cards.service';
+import { PersonsService } from './../persons/persons.service';
 import { PlansService } from './../plans/plans.service';
 import { HttpClient } from './../util/http.service';
 
 import { Session } from './session';
 import { Card } from './../cards/card';
+import { Person } from './../persons/person';
 import { Plan } from './../plans/plan';
 
 @Component({
   selector:    'sessions',
   templateUrl: './sessions.component.html',
-  providers:  [ SessionService, CardsService, HttpClient ]
+  providers:  [ SessionService, CardsService, PersonsService, HttpClient ]
 })
 export class SessionsListComponent {
   sessions: Session[];
   activeSessions: Session[];
   cards: Card[];
+  persons: Person[];
   selectedSession: Session;
   newCardId: string;
   private socket = new WebSocket("wss://easyanticafedevelop.herokuapp.com/cat/");
 
   constructor(public dialog: MdDialog,
               private sessionsService: SessionService,
+              private personsService: PersonsService,
               private cardsService: CardsService) { }
 
   ngOnInit() {
     let that = this;
     that.getSessions();
-    let interval = setInterval(function() {
-      that.getSessions();
-    }, 5000);
+    //let interval = setInterval(function() {
+      //that.getSessions();
+    //}, 5000);
     this.getCards();
+    this.getPersons();
     this.socket.onmessage = function(e) {
       that.checkCard(e.data);
     }
@@ -67,8 +72,19 @@ export class SessionsListComponent {
     });
   }
 
+  getPersons(): void {
+    this.personsService
+    .getPersons()
+    .then((persons) => {
+      this.persons = persons
+      console.log('Persons are ready:', this.persons)
+    });
+  }
+
   getSessionCardId(session) {
+    console.log('Get session card id', session)
     if (this.cards) {
+      console.log('Session', session)
       let card = this.cards.find(function(item) {
         return item.id == session.card;
       })
@@ -102,6 +118,21 @@ export class SessionsListComponent {
         }
       }
     });
+  }
+
+  openPersonDetails(session) {
+    let that = this;
+    if (this.persons) {
+      let person = that.persons.find(function(item) {
+        return item.card === session.card;
+      })
+      if (person) {
+        let sessionDialog = this.dialog.open(SessionDialog);
+        sessionDialog.componentInstance.session = session;
+        sessionDialog.afterClosed().subscribe(result => {
+      }
+    }
+
   }
 
   checkCard(cardId) {

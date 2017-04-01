@@ -10,10 +10,14 @@
 <md-card (click)="selectSession(session)" *ngFor="let session of activeSessions">
   <md-card-title>
     <span class="small">Card {{getSessionCardId(session)}}</span>
+    <button md-button (click)="openPersonDetails(session)">
+      <i class="material-icons md-18">person_pin</i>
+    </button>
   </md-card-title>
   <md-card-subtitle>Cost {{session.costInRub}} &#x20bd;</md-card-subtitle>
   <md-card-subtitle>Session started {{session.start | amDateFormat:'LLL'}}, duration {{session.durationInSec | amDuration:'seconds'}}</md-card-subtitle>
   <div class="action-buttons">
     <button md-button (click)="openSession(session)">STOP</button>
+    <button md-button (click)="openSession(session)">EDIT</button>
   </div>
 </md-card>
