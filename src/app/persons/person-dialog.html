@@ -1,0 +1,15 @@
+<h1 md-dialog-title>Person</h1>
+<form (ngSubmit)="dialogRef.close(person)">
+  <div md-dialog-content>
+    <md-input-container>
+      <input name="firstName" mdInput placeholder="First name" [(ngModel)]="person.first_name" value="{{person.first_name}}">
+    </md-input-container>
+    <md-input-container>
+      <input name="secondName" mdInput placeholder="Last name" [(ngModel)]="person.second_name" value="{{person.second_name}}">
+    </md-input-container>
+  </div>
+  <div md-dialog-actions>
+    <button md-button (click)="dialogRef.close()">Cancel</button>
+    <button md-button [disabled]="!person.first_name || !person.second_name">Save</button>
+  </div>
+</form>

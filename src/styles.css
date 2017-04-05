@@ -1,8 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 
-.mat-card {
+.session {
   margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid;
+  border-color: rgba(0,0,0,.12);
+  border-radius: 4px;
+  padding: 10px 0px;
 }
 
 .input-container {
@@ -10,23 +15,7 @@
   right: 100px;
 }
 
-.mat-card-title .small {
+.session .small {
   font-size: 20px;
   color: #4a4a4a;
 }
-
-.action-buttons {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  padding: 10px;
-  margin-bottom: 22px;
-  display: flex;
-  flex-direction: column;
-
-  .mat-button {
-    flex: 1;
-  }
-}
-

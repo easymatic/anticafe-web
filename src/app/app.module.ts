@@ -10,19 +10,22 @@ import { AppComponent } from './app.component';
 import { SessionsListComponent } from './sessions/sessions.component';
 import { NewCardDialog } from './sessions/sessions.component'
 import { SessionDialog } from './sessions/sessions.component'
+import { PersonDialog } from './sessions/sessions.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     SessionsListComponent,
     NewCardDialog,
-    SessionDialog
+    SessionDialog,
+    PersonDialog
   ],
   entryComponents: [
     AppComponent,
     SessionsListComponent,
     NewCardDialog,
-    SessionDialog
+    SessionDialog,
+    PersonDialog
   ],
   imports: [
     BrowserModule,

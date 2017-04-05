@@ -7,17 +7,20 @@
     </form>
   </md-input-container>
 </md-toolbar>
-<md-card (click)="selectSession(session)" *ngFor="let session of activeSessions">
-  <md-card-title>
-    <span class="small">Card {{getSessionCardId(session)}}</span>
-    <button md-button (click)="openPersonDetails(session)">
-      <i class="material-icons md-18">person_pin</i>
-    </button>
-  </md-card-title>
-  <md-card-subtitle>Cost {{session.costInRub}} &#x20bd;</md-card-subtitle>
-  <md-card-subtitle>Session started {{session.start | amDateFormat:'LLL'}}, duration {{session.durationInSec | amDuration:'seconds'}}</md-card-subtitle>
-  <div class="action-buttons">
-    <button md-button (click)="openSession(session)">STOP</button>
-    <button md-button (click)="openSession(session)">EDIT</button>
-  </div>
-</md-card>
+<md-list dense class="sessions-list">
+  <md-list-item class="session" (click)="selectSession(session)" *ngFor="let session of activeSessions">
+      <p md-line>
+      <span *ngIf="!getSessionPerson(session)" class="small">Card {{getSessionCardId(session)}}</span>
+      <span *ngIf="getSessionPerson(session)" class="small">{{getSessionPerson(session).first_name}} {{getSessionPerson(session).second_name}}</span>
+      <button md-icon-button (click)="openPersonDetails(session)">
+        <i class="material-icons md-18">person_pin</i>
+      </button>
+      </p>
+      <p md-line>Cost {{session.costInRub}} &#x20bd;</p>
+      <p md-line>Session started {{session.start | amDateFormat:'LLL'}}, duration {{session.durationInSec | amDuration:'seconds'}}
+      <button md-icon-button (click)="openSession(session)">
+        <i class="material-icons md-18">stop</i>
+      </button>
+      </p>
+</md-list-item>
+</md-list>

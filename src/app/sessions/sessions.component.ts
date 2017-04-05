@@ -82,9 +82,7 @@ export class SessionsListComponent {
   }
 
   getSessionCardId(session) {
-    console.log('Get session card id', session)
     if (this.cards) {
-      console.log('Session', session)
       let card = this.cards.find(function(item) {
         return item.id == session.card;
       })
@@ -120,17 +118,51 @@ export class SessionsListComponent {
     });
   }
 
+  getSessionPerson(session) {
+    let that = this;
+    if (this.persons) {
+      let person = that.persons.find(function(item) {
+        return item.card === session.card;
+      })
+      return person;
+    }
+  }
+
   openPersonDetails(session) {
     let that = this;
     if (this.persons) {
       let person = that.persons.find(function(item) {
         return item.card === session.card;
       })
-      if (person) {
-        let sessionDialog = this.dialog.open(SessionDialog);
-        sessionDialog.componentInstance.session = session;
-        sessionDialog.afterClosed().subscribe(result => {
-      }
+      console.log('Person is', person)
+      let personDialog = this.dialog.open(PersonDialog);
+      personDialog.componentInstance.person = person
+      personDialog.afterClosed().subscribe(result => {
+        console.log('Result is ', result)
+        if (result) {
+          if (!result.id || result.id === 0) {
+            result.card = session.card;
+            this.personsService
+            .create(result)
+            .then((person) => {
+              console.log('Person created', person)
+              that.persons.push(person)
+            });
+          } else {
+            result.card = session.card;
+            this.personsService
+            .update(result)
+            .then((person) => {
+              console.log('Person saved ', person)
+              let index = this.persons.map(function(person) {
+                return person.id
+              }).indexOf(result.id)
+              that.persons[index] = person
+            });
+
+          }
+        }
+      });
     }
 
   }
@@ -194,6 +226,23 @@ export class SessionsListComponent {
 export class SessionDialog {
   session: Session
   constructor(public dialogRef: MdDialogRef<SessionDialog>) {}
+}
+
+@Component({
+  selector: 'person-dialog',
+  templateUrl: './../persons/person-dialog.html'
+})
+export class PersonDialog {
+  person: Person
+  constructor(public dialogRef: MdDialogRef<PersonDialog>) {}
+
+  ngOnInit() {
+    let that = this;
+    console.log('Person is', that.person)
+    if (!that.person) {
+      this.person = new Person(0, 0, "", "");
+    }
+  }
 }
 
 @Component({
